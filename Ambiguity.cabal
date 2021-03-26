@@ -52,8 +52,8 @@ executable ambiguity-server
                      , Ambiguity
                      , random >= 1.1 && < 1.2
                      , MonadRandom >= 0.5.1 && < 0.6
-                     , servant >= 0.16.1 && < 0.17
-                     , servant-server >= 0.16.1 && < 0.17
+                     , servant >= 0.16.1 && < 0.19
+                     , servant-server >= 0.16.1 && < 0.19
                      , servant-lucid >= 0.9 && < 0.10
                      , servant-docs >= 0.10 && < 0.12
                      , lucid >= 2.9.8.1 && < 3
