@@ -12,9 +12,32 @@
         pkgs = import nixpkgs { inherit system; overlays = [ ]; };
 
         version = "AmbiguityGenerator:master";
-      in {
+      in rec {
         defaultPackage =
           pkgs.haskellPackages.callCabal2nixWithOptions "ambiguity-server" ./. "" {};
+
+        packages = {
+          default = defaultPackage;
+        };
+
+        apps = rec {
+          ambiguity-server = {
+            type = "app";
+            program = "${self.packages.${system}.default}/bin/ambiguity-server";
+          };
+
+          histogram = {
+            type = "app";
+            program = "${self.packages.${system}.default}/bin/histogram";
+          };
+
+          draws = {
+            type = "app";
+            program = "${self.packages.${system}.default}/bin/draws";
+          };
+
+          default = ambiguity-server;
+        };
 
         devShell = pkgs.haskellPackages.shellFor {
           packages =
