@@ -22,8 +22,7 @@ import qualified Data.ByteString.Lazy.Char8 as BS
 
 checkShuffled :: [Bool] -> Bool
 checkShuffled [] = True
-checkShuffled vs = any id vs
-
+checkShuffled vs = or vs
 
 -- | Samples, lower bound, upper bound, shuffle, offLow, offHigh, draws to skip.
 data FiniteData = FiniteData Int Integer Integer Bool AmbiGenReal AmbiGenReal Int
@@ -32,36 +31,36 @@ data FiniteData = FiniteData Int Integer Integer Bool AmbiGenReal AmbiGenReal In
 
 instance ToJSON FiniteData where
   toJSON (FiniteData samples lower upper shuffled offLow offHigh skip)
-    = object [ "samples" .= samples
-             , "lower" .= lower
-             , "upper" .= upper
+    = object [ "samples"  .= samples
+             , "lower"    .= lower
+             , "upper"    .= upper
              , "shuffled" .= shuffled
-             , "offLow" .= offLow
-             , "offHigh" .= offHigh
-             , "skip" .= skip
+             , "offLow"   .= offLow
+             , "offHigh"  .= offHigh
+             , "skip"     .= skip
              ]
 
 
 instance FromJSON FiniteData where
   parseJSON (Object v) = FiniteData
     <$> v .: "samples"
-    <*> (fromMaybe 0 <$> (v .:? "lower"))
-    <*> (fromMaybe 1 <$> (v .:? "upper"))
+    <*> (fromMaybe 0    <$> (v .:? "lower"))
+    <*> (fromMaybe 1    <$> (v .:? "upper"))
     <*> (fromMaybe True <$> (v .:? "shuffled"))
-    <*> (fromMaybe 0 <$> (v .:? "offLow"))
-    <*> (fromMaybe 0 <$> (v .:? "offHigh"))
-    <*> (fromMaybe 0 <$> (v .:? "skip"))
+    <*> (fromMaybe 0    <$> (v .:? "offLow"))
+    <*> (fromMaybe 0    <$> (v .:? "offHigh"))
+    <*> (fromMaybe 0    <$> (v .:? "skip"))
 
 
 instance FromForm FiniteData where
   fromForm f = FiniteData
     <$> parseUnique "samples" f
-    <*> (fromMaybe 0 <$> (parseMaybe "lower" f))
-    <*> (fromMaybe 1 <$> (parseMaybe "upper" f))
-    <*> (checkShuffled <$> (parseAll "shuffled" f))
-    <*> (fromMaybe 0 <$> (parseMaybe "offLow" f))
-    <*> (fromMaybe 0 <$> (parseMaybe "offHigh" f))
-    <*> (fromMaybe 0 <$> (parseMaybe "skip" f))
+    <*> (fromMaybe 0   <$> parseMaybe "lower" f)
+    <*> (fromMaybe 1   <$> parseMaybe "upper" f)
+    <*> (checkShuffled <$> parseAll "shuffled" f)
+    <*> (fromMaybe 0   <$> parseMaybe "offLow" f)
+    <*> (fromMaybe 0   <$> parseMaybe "offHigh" f)
+    <*> (fromMaybe 0   <$> parseMaybe "skip" f)
 
 
 instance ToForm FiniteData where
@@ -94,18 +93,18 @@ instance FromJSON RealizationData where
   parseJSON (Object v) = RealizationData
     <$> v .: "samples"
     <*> (fromMaybe False <$> (v .:? "shuffled"))
-    <*> (fromMaybe 0 <$> (v .:? "offLow"))
-    <*> (fromMaybe 0 <$> (v .:? "offHigh"))
-    <*> (fromMaybe 0 <$> (v .:? "skip"))
+    <*> (fromMaybe 0     <$> (v .:? "offLow"))
+    <*> (fromMaybe 0     <$> (v .:? "offHigh"))
+    <*> (fromMaybe 0     <$> (v .:? "skip"))
 
 
 instance FromForm RealizationData where
   fromForm f = RealizationData
     <$> parseUnique "samples" f
-    <*> (checkShuffled <$> (parseAll "shuffled" f))
-    <*> (fromMaybe 0 <$> (parseMaybe "offLow" f))
-    <*> (fromMaybe 0 <$> (parseMaybe "offHigh" f))
-    <*> (fromMaybe 0 <$> (parseMaybe "skip" f))
+    <*> (checkShuffled <$> parseAll "shuffled" f)
+    <*> (fromMaybe 0   <$> parseMaybe "offLow" f)
+    <*> (fromMaybe 0   <$> parseMaybe "offHigh" f)
+    <*> (fromMaybe 0   <$> parseMaybe "skip" f)
 
 
 instance ToForm RealizationData where
