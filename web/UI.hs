@@ -10,7 +10,7 @@ import qualified Data.Text as T
 
 
 baseUrl :: Html ()
-baseUrl = "ambiguity.typesofnote.com"
+baseUrl = "https://ambiguity.chapman.edu"
 
 
 materialize :: Html ()
@@ -73,13 +73,13 @@ examples
                           \-X POST -d '{\"samples\":1000, \"lower\":0, \
                           \\"upper\":10}' " <> baseUrl <> "/finite")
 
-    , makeExample "Python" ("import requests; r=requests.post('http://" <>
+    , makeExample "Python" ("import requests; r=requests.post('" <>
                             baseUrl <>
                             "/finite', data={\"samples\":1000, \"lower\":0, \
                             \\"upper\":10})")
 
     , makeExample "Mathematica <= 11.3" ("ToExpression[StringJoin[\"{\", \
-                                 \URLExecute[\"http://" <> baseUrl <> "/finite\"\
+                                 \URLExecute[\"" <> baseUrl <> "/finite\"\
                                  \, {\"format\" -> \"json\", \"samples\" -> 1000, \
                                  \\"lower\" -> 0, \"upper\" -> 10, \
                                  \\"shuffled\" -> \"false\"}, \"Method\" -> \"POST\"]\
@@ -90,14 +90,14 @@ examples
                                        \StringJoin[\"{\", \
                                        \URLExecute[ \
                                        \HTTPRequest[ \
-                                       \\"http://" <> baseUrl <> "/finite\", <| \
+                                       \\"" <> baseUrl <> "/finite\", <| \
                                        \\"Body\" -> {\"format\" -> \"json\", \"samples\" -> 1000, \"lower\" -> 0, \
                                        \\"upper\" -> 10, \"shuffled\" -> \"false\"}, Method -> \"POST\"|>]], \
                                        \\"}\"]], PlotRange -> All]")
     , makeExample "Mathematica >= 12.2" ("SmoothHistogram[ \
                                          \Flatten[URLExecute[ \
                                          \HTTPRequest[ \
-                                         \\"http://" <> baseUrl <> "/finite\", <| \
+                                         \\"" <> baseUrl <> "/finite\", <| \
                                          \\"Body\" -> {\"format\" -> \"json\", \"samples\" -> 1000, \"lower\" -> 0, \
                                          \\"upper\" -> 10, \"shuffled\" -> \"false\"}, Method -> \"POST\"|>]]], \
                                          \\"PlotRange -> All]")
