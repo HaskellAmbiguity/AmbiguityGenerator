@@ -1,4 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE BangPatterns #-}
 module Ambiguity where
 
 import System.Random
@@ -28,15 +29,15 @@ cauchyDrawM offset scale
 --   the scale changes over time, and some state for previous draws,
 --   which are used as seeds for the ambiguity generator.
 data AmbiGenState =
-  AmbiGenState { genOffset :: AmbiGenReal  -- ^ Offset for the cauchy distribution ("location").
-               , genScale  :: AmbiGenReal  -- ^ Scale for the cauchy distribution.
-               , genPhi    :: AmbiGenReal  -- ^ Small multiplicative scaling factor for adjusting the scale.
-               , genPsi    :: AmbiGenReal  -- ^ Small additive scaling factor for adjusting the scale.
-               , genSeed1  :: AmbiGenReal  -- ^ Last draw.
-               , genSeed2  :: AmbiGenReal  -- ^ Second last draw.
-               , genSeed3  :: AmbiGenReal  -- ^ Third last draw.
-               , genSeed4  :: AmbiGenReal  -- ^ Fourth last draw.
-               , genDraws  :: Integer      -- ^ Number of draws.
+  AmbiGenState { genOffset :: !AmbiGenReal  -- ^ Offset for the cauchy distribution ("location").
+               , genScale  :: !AmbiGenReal  -- ^ Scale for the cauchy distribution.
+               , genPhi    :: !AmbiGenReal  -- ^ Small multiplicative scaling factor for adjusting the scale.
+               , genPsi    :: !AmbiGenReal  -- ^ Small additive scaling factor for adjusting the scale.
+               , genSeed1  :: !AmbiGenReal  -- ^ Last draw.
+               , genSeed2  :: !AmbiGenReal  -- ^ Second last draw.
+               , genSeed3  :: !AmbiGenReal  -- ^ Third last draw.
+               , genSeed4  :: !AmbiGenReal  -- ^ Fourth last draw.
+               , genDraws  :: !Integer      -- ^ Number of draws.
                }
 
 
@@ -68,8 +69,8 @@ mkAmbiGen phi psi startOffLow startOffHigh
 
 
 data ContinuousState =
-  ContinuousState { contAmbiGen :: AmbiGenState
-                  , contPrevRealizations :: [AmbiGenReal]
+  ContinuousState { contAmbiGen :: !AmbiGenState
+                  , contPrevRealizations :: ![AmbiGenReal]
                   }
 
 

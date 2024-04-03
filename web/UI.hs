@@ -85,7 +85,7 @@ examples
                                  \\"shuffled\" -> \"false\"}, \"Method\" -> \"POST\"]\
                                  \, \"}\"]]")
 
-    , makeExample "Mathematica >= 12" ("SmoothHistogram[ \
+    , makeExample "Mathematica (11.3,12.2)" ("SmoothHistogram[ \
                                        \ToExpression[ \
                                        \StringJoin[\"{\", \
                                        \URLExecute[ \
@@ -94,6 +94,13 @@ examples
                                        \\"Body\" -> {\"format\" -> \"json\", \"samples\" -> 1000, \"lower\" -> 0, \
                                        \\"upper\" -> 10, \"shuffled\" -> \"false\"}, Method -> \"POST\"|>]], \
                                        \\"}\"]], PlotRange -> All]")
+    , makeExample "Mathematica >= 12.2" ("SmoothHistogram[ \
+                                         \Flatten[URLExecute[ \
+                                         \HTTPRequest[ \
+                                         \\"http://" <> baseUrl <> "/finite\", <| \
+                                         \\"Body\" -> {\"format\" -> \"json\", \"samples\" -> 1000, \"lower\" -> 0, \
+                                         \\"upper\" -> 10, \"shuffled\" -> \"false\"}, Method -> \"POST\"|>]]], \
+                                         \\"PlotRange -> All]")
     ]
 
 
